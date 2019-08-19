@@ -223,23 +223,23 @@ def plotOneBar(tmp,prev_tmp,listcol,name='',colors='blue'):
     data=[]
     n = listcol[0]
     trace = go.Bar(
-                    x = prev_tmp.index,
-                    y = prev_tmp[n],
-                    name = "previous "+n.split('_')[-1],
-                    marker = dict(color = colors,
-                                    line=dict(color='rgb(0,0,0)',width=0.5)),
-                    opacity=0.8,
-                    text = prev_tmp.index)
-    data.append(trace)
-    trace = go.Scatter(
                     x = tmp.index,
                     y = tmp[n],
                     name = n.split('_')[-1],
+                    marker = dict(color = colors,
+                                    line=dict(color='rgb(0,0,0)',width=0.5)),
+                    opacity=0.8,
+                    text = tmp.index)
+    data.append(trace)
+    trace = go.Scatter(
+                    x = prev_tmp.index,
+                    y = prev_tmp[n],
+                    name = "previous "+n.split('_')[-1],
                     mode='lines',
                     marker = dict(color = 'red',
                                     line=dict(color='red',width=0.5)),
                     opacity=1,
-                    text = tmp.index)
+                    text = prev_tmp.index)
     data.append(trace)
 
     layout = go.Layout(title=name)
@@ -252,23 +252,23 @@ def plotRateBar(tmp,prev_tmp,listcol,name=''):
     colors = colorSanity(len(listcol))
     for i,n in enumerate(listcol):
         trace = go.Bar(
-                        x = prev_tmp.index,
-                        y = prev_tmp[n]/prev_tmp[n].sum(),
-                        name = "previous "+n.split('_')[-1],
-                        legendgroup = n,
-                        marker = dict(color = colors[i],
-                                     line=dict(color='rgb(0,0,0)',width=0.5)),
-                        text = prev_tmp.index)
-        data.append(trace)
-        trace = go.Scatter(
                         x = tmp.index,
                         y = tmp[n]/tmp[n].sum(),
                         name = n.split('_')[-1],
                         legendgroup = n,
+                        marker = dict(color = colors[i],
+                                     line=dict(color='rgb(0,0,0)',width=0.5)),
+                        text = tmp.index)
+        data.append(trace)
+        trace = go.Scatter(
+                        x = prev_tmp.index,
+                        y = prev_tmp[n]/prev_tmp[n].sum(),
+                        name = "previous "+n.split('_')[-1],
+                        legendgroup = n,
                         mode='lines+markers',
                         marker = dict(color = colors[i],
                                      line=dict(color='red',width=0.5)),
-                        text = tmp.index)
+                        text = prev_tmp.index)
         data.append(trace)
     
 
@@ -280,23 +280,23 @@ def plotOneRateBar(tmp,prev_tmp,listcol,name='',colors='blue'):
     data=[]
     n = listcol[0]
     trace = go.Bar(
-                    x = prev_tmp.index,
-                    y = prev_tmp[n]/prev_tmp[n].sum(),
-                    name = "previous "+n.split('_')[-1],
-                    opacity=0.8,
-                    marker = dict(color = colors,
-                                 line=dict(color='rgb(0,0,0)',width=0.5)),
-                    text = prev_tmp.index)
-    data.append(trace)
-    trace = go.Scatter(
                     x = tmp.index,
                     y = tmp[n]/tmp[n].sum(),
                     name = n.split('_')[-1],
+                    opacity=0.8,
+                    marker = dict(color = colors,
+                                 line=dict(color='rgb(0,0,0)',width=0.5)),
+                    text = tmp.index)
+    data.append(trace)
+    trace = go.Scatter(
+                    x = prev_tmp.index,
+                    y = prev_tmp[n]/prev_tmp[n].sum(),
+                    name = "previous "+n.split('_')[-1],
                     mode='lines',
                     opacity=1,
                     marker = dict(color = 'red',
                                  line=dict(color='red',width=0.5)),
-                    text = tmp.index)
+                    text = prev_tmp.index)
     data.append(trace)
     
 
