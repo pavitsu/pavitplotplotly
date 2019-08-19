@@ -14,9 +14,8 @@ from plotly.offline import iplot,init_notebook_mode
 init_notebook_mode(connected=True)
 import plotly.graph_objs as go
 import matplotlib.pyplot as plt
-from bokeh.palettes import Category20
 from plotly.subplots import make_subplots
-
+import random
 
 def plotBox(df,listcol,prev_df=None):
     if prev_df is None:
@@ -47,7 +46,7 @@ def plotBox(df,listcol,prev_df=None):
                 legendgroup='Prev Week', scalegroup='Prev Week',
                 name = n.split('_')[-1],
                 opacity=0.6,
-                side='positive',
+                side='negative',
                 marker = dict(
                     color = 'blue'
                 )
@@ -60,7 +59,7 @@ def plotBox(df,listcol,prev_df=None):
                 name = n.split('_')[-1],
                 opacity=0.6,
                 legendgroup='This Week', scalegroup='This Week',
-                side='negative',
+                side='positive',
                 marker = dict(
                     color = 'orange'
                 )
@@ -75,7 +74,7 @@ def extractCol(df,colname):
             return x[name]
         except TypeError:
             return 0
-    __list = list(df[colname][0].keys())
+    __list = list(df[colname][random.randint(0, len(df))].keys())
     __list.sort()
     for __name in __list:
         df[colname+'_'+__name] = df[colname].apply(lambda x : oneHot(x,__name))
@@ -331,3 +330,13 @@ def plotCombineBar(tmp,listcol,prev_tmp,prevcol,name='',xaxis='X',yaxis='Y'):
     fig = go.Figure(data = data, layout = layout)
     iplot(fig)
     
+def plotChangeRate(tmp,prev_tmp,col,x='name',color_continuous_scale = px.colors.diverging.RdYlGn, title = 'Change Rate'):
+    tmp['change_rate'] = (tmp[col] - prev_tmp[col]) / prev_tmp[col]
+    tmp = tmp.sort_values(['change_rate'])
+
+    fig = px.bar(tmp.reset_index(), x=x, y='change_rate',
+                 color='change_rate',
+                 color_continuous_midpoint=0,
+                 color_continuous_scale = color_continuous_scale,
+                title=title)
+    fig.show()
