@@ -46,6 +46,7 @@ def plotBox(df,listcol,prev_df=None):
                 meanline_visible=True,
                 legendgroup='Prev Week', scalegroup='Prev Week',
                 name = n.split('_')[-1],
+                opacity=0.6,
                 side='positive',
                 marker = dict(
                     color = 'blue'
@@ -57,6 +58,7 @@ def plotBox(df,listcol,prev_df=None):
                 box_visible=False,
                 meanline_visible=True,
                 name = n.split('_')[-1],
+                opacity=0.6,
                 legendgroup='This Week', scalegroup='This Week',
                 side='negative',
                 marker = dict(
@@ -144,12 +146,12 @@ def plotPiePrev(df,prev_df,listcol):
 
 
     fig.add_trace(go.Pie(labels=labels,
-                         values=pie1_list, 
+                         values=pie2_list, 
                          scalegroup='one',
                          opacity=0.7,
                          name="Previous week"), 1, 1)
     fig.add_trace(go.Pie(labels=labels,
-                         values=pie2_list, 
+                         values=pie1_list, 
                          scalegroup='one',
                          name="This week"), 1, 2)
 
@@ -303,7 +305,7 @@ def plotOneRateBar(tmp,prev_tmp,listcol,name='',colors='blue'):
     iplot(fig)
 
 
-def plotCombineBar(tmp,listcol,name='',xaxis='X',yaxis='Y'):
+def plotCombineBar(tmp,listcol,prev_tmp,prevcol,name='',xaxis='X',yaxis='Y'):
     data=[]
     for i,n in enumerate(listcol):
         trace = {
@@ -313,7 +315,13 @@ def plotCombineBar(tmp,listcol,name='',xaxis='X',yaxis='Y'):
           'type': 'bar'
         }
         data.append(trace)
-        
+    trace = {
+        'x': prev_tmp.index,
+        'y': prev_tmp[prevcol],
+        'name': 'previous '+prevcol.split('_')[-1],
+        'type': 'scatter'
+    }
+    data.append(trace)
     layout = {
         'xaxis': {'title': xaxis},
         'yaxis': {'title': yaxis},
