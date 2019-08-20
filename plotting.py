@@ -48,7 +48,7 @@ def plotBox(df,listcol,prev_df=None):
                 opacity=0.6,
                 side='negative',
                 marker = dict(
-                    color = 'blue'
+                    color = 'orange'
                 )
             )
             data.append(trace)
@@ -61,7 +61,7 @@ def plotBox(df,listcol,prev_df=None):
                 legendgroup='This Week', scalegroup='This Week',
                 side='positive',
                 marker = dict(
-                    color = 'orange'
+                    color = 'blue'
                 )
             )
             data.append(trace)
@@ -88,7 +88,7 @@ def colorSanity(n):
         return ['blue','orange']
     
 
-def plotViolinPrev(df,prev_df,list_col,name='',color=['blue','orange']):
+def plotViolinPrev(df,prev_df,list_col,name='',color=['orange','blue']):
     fig = go.Figure()
     color = colorSanity(len(list_col))
     for i,n in enumerate(list_col):
